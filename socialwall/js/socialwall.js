@@ -94,8 +94,8 @@ var $socialWallGrid = $('.social-wall-grid'),
                         // text
                         $text = $('<div class="text"></div>').html(text).appendTo($('.box', $box));
 
-                        // extra
-                        $source = $('<div class="source"><span class="source">' + icon + '</span></div>').appendTo($('.box', $box));
+                        // source
+                        $source = $('<div class="source">' + icon + '</div>').appendTo($('.box', $box));
 
                         // append
                         $box.appendTo($socialWallGrid);
