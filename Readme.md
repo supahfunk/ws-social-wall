@@ -1,4 +1,4 @@
-﻿# WS Social Wall
+# WS Social Wall
 
 - - -
 
