@@ -18,7 +18,6 @@ var $socialWallGrid = $('.social-wall-grid'),
     tooManyFeeds: false,
     $data: null,
     init: function () {
-        
         $.ajax({
             url: 'http://www.seejay.co/api/v1.0/wall/content/' + socialWall.codiceSocialWall + '?access_token=' + socialWall.accessToken,
             dataType: 'json',
@@ -43,7 +42,6 @@ var $socialWallGrid = $('.social-wall-grid'),
             socialWall.maxFeed = socialWall.$data.data.items.length;
             socialWall.tooManyFeeds = true;
         }
-
 
         for (i = from; i < to; i++) {
 
@@ -130,7 +128,7 @@ var $socialWallGrid = $('.social-wall-grid'),
             $wall.masonry('layout');
         });
 
-        if (socialWall.loadMore) {
+        if (socialWall.loadMore == true) {
             $('<div class="social-wall-load-more"><button class="btn btn-load-more">Load more</button></div>').insertAfter($socialWallGrid);
         }
 
