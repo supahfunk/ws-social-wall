@@ -166,3 +166,14 @@ Website by Websolute
     }
 }
 
+.load-more {
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+
+    .btn {
+        text-transform: uppercase;
+        font-size: 12px;
+        cursor: pointer;
+    }
+}
