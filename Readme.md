@@ -1,9 +1,15 @@
 ﻿# WS Social Wall
 
+- - -
+
 ### Demo
 [Social Wall Standard](http://extranet.wslabs.it/socialwall/ws-social-wall/socialwall.html)
 
 [Social Wall con Load More](http://extranet.wslabs.it/socialwall/ws-social-wall/socialwall-load-more.html)
+
+- - - 
+
+### Getting Started
 
 Includere il file **socialwall/socialwall.js** nell'html, dopo jQuery.
 Se necessario includere anche **Masonry** e **imagesLoaded**
