@@ -1,7 +1,5 @@
 # WS Social Wall
 
-- - -
-
 ### Demo
 [Social Wall Standard](http://extranet.wslabs.it/socialwall/ws-social-wall/socialwall.html)
 
