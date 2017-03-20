@@ -30,9 +30,9 @@ gulp.task('sass', function () {
         .pipe(rename({ dirname: '' }))
         .pipe(gulp.dest('./css'))
         // minify
-        //.pipe(cssmin())
-		//.pipe(rename({ suffix: '.min' }))
-        //.pipe(gulp.dest('./css'));
+        .pipe(cssmin())
+		.pipe(rename({ suffix: '.min' }))
+        .pipe(gulp.dest('./css'));
 });
 
 

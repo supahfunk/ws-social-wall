@@ -7,17 +7,18 @@ Website by Websolute
 /*--------------------------------------------------
 SocialWall
 --------------------------------------------------*/
-var socialWall = {
+var $socialWallGrid = $('.social-wall-grid'),
+    socialWall = {
     codiceSocialWall: 'b17d6114643f2627f53de462565fda5e',
     accessToken: '634737799ba786bbfe74ff48a52b3f54725782e5eab78',
-    maxFeed: 10,
-    tooManyFeeds: false,
-    withMasonry: false,
-    loadMore: true,
-    $grid: $('.social-wall-grid'),
+    maxFeed: $socialWallGrid.attr('data-max-feed') || 10,
+    withMasonry: $socialWallGrid.attr('data-masonry') || false,
+    loadMore: $socialWallGrid.attr('data-load-more') || false,
     actualFeed: 0,
+    tooManyFeeds: false,
     $data: null,
     init: function () {
+        
         $.ajax({
             url: 'http://www.seejay.co/api/v1.0/wall/content/' + socialWall.codiceSocialWall + '?access_token=' + socialWall.accessToken,
             dataType: 'json',
@@ -32,7 +33,6 @@ var socialWall = {
                 }
 
                 socialWall.createGrid(socialWall.actualFeed, socialWall.maxFeed);
-
 
             }
         });
@@ -100,7 +100,7 @@ var socialWall = {
                     $source = $('<div class="source"><span class="source">' + icon + '</span></div>').appendTo($('.box', $box));
 
                     // append
-                    $box.appendTo(socialWall.$grid);
+                    $box.appendTo($socialWallGrid);
 
                     if (socialWall.withMasonry) {
                         $wall.masonry('appended', $box);
@@ -122,7 +122,7 @@ var socialWall = {
 
     },
     masonry: function () {
-        $wall = socialWall.$grid.masonry({
+        $wall = $socialWallGrid.masonry({
             itemSelector: '.grid-item'
         });
 
@@ -131,17 +131,17 @@ var socialWall = {
         });
 
         if (socialWall.loadMore) {
-            $('<div class="load-more"><button class="btn social-wall-load-more">Load more</button></div>').insertAfter(socialWall.$grid);
+            $('<div class="social-wall-load-more"><button class="btn btn-load-more">Load more</button></div>').insertAfter($socialWallGrid);
         }
 
-        $(document).on('click', '.social-wall-load-more', function () {
+        $(document).on('click', '.btn-load-more', function () {
             socialWall.createGrid(socialWall.actualFeed, socialWall.actualFeed * 2);
             setTimeout(function () {
                 $wall.masonry('layout');
             }, 300);
 
             if (socialWall.actualFeed >= socialWall.$data.data.items.length) {
-                $('.load-more').remove();
+                $('.social-wall-load-more').remove();
             }
         });
 
