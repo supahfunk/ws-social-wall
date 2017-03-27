@@ -51,15 +51,18 @@ var $socialWallGrid = $('.social-wall-grid'),
                         $box = $('<div class="grid-item"><div class="grid-wrap"><div class="box"></div></div></div>'),
                         source = feed.source,
                         feedID = feed.id,
-                        date = feed.date,
+                        permalink = feed.permalink,
+                        date = new Date(parseInt(feed.date)),
                         text = urlify(feed.text),
                         media = feed.media || undefined,
                         user = feed.user,
                         avatar = user.avatar.replace('https', 'http'),
                         id = user.id,
-                        name = user.name,
+                        userPermalink = user.permalink,
                         icon,
                         socialUrl;
+
+                    console.log(date.toString());
 
                     switch (source) {
                         case 'PT':
@@ -86,10 +89,10 @@ var $socialWallGrid = $('.social-wall-grid'),
                     if (source != 'GP' && typeof media != 'undefined') {
 
                         // media
-                        $media = $('<div class="media"><figure><img src="' + media.url + '" /></figure></div>').appendTo($('.box', $box));
+                        $media = $('<div class="media"><a href="' + permalink + '" target="_blank"><figure><img src="' + media.url + '" /></figure></a></div>').appendTo($('.box', $box));
 
                         // author 
-                        $avatar = $('<div class="author"><a href="' + (socialUrl + id) + '" target="_blank"><figure class="img"><img src="' + avatar + '" onError="$(this).remove();" class="avatar" /></figure><span class="author-name">' + name + '</span> <span class="author-username">' + id + '</span></a></div>').appendTo($('.box', $box));;
+                        $avatar = $('<div class="author"><a href="' + userPermalink + '" target="_blank"><figure class="img"><img src="' + avatar + '" onError="$(this).remove();" class="avatar" /></figure><span class="author-name">' + name + '</span> <span class="author-username">' + id + '</span></a></div>').appendTo($('.box', $box));;
 
                         // text
                         $text = $('<div class="text"></div>').html(text).appendTo($('.box', $box));
