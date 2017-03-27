@@ -9,8 +9,8 @@ SocialWall
 --------------------------------------------------*/
 var $socialWallGrid = $('.social-wall-grid'),
     socialWall = {
-        codiceSocialWall: 'b17d6114643f2627f53de462565fda5e',
-        accessToken: '634737799ba786bbfe74ff48a52b3f54725782e5eab78',
+        codiceSocialWall: $socialWallGrid.attr('data-code'),
+        accessToken: $socialWallGrid.attr('data-token'),
         maxFeed: $socialWallGrid.attr('data-max-feed') || 10,
         withMasonry: $socialWallGrid.attr('data-masonry') || 'false',
         loadMore: $socialWallGrid.attr('data-load-more') || 'false',
