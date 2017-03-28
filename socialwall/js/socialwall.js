@@ -31,19 +31,19 @@ var $socialWallGrid = $('.social-wall-grid'),
                         socialWall.masonry();
                     }
 
-                    socialWall.createGrid(socialWall.actualFeed, socialWall.maxFeed);
+                    socialWall.createGrid();
 
                 }
             });
         },
-        createGrid: function (from, to) {
+        createGrid: function () {
 
             if (socialWall.$data.data.items.length < socialWall.maxFeed) {
                 socialWall.maxFeed = socialWall.$data.data.items.length;
                 socialWall.tooManyFeeds = true;
             }
 
-            for (i = from; i < to; i++) {
+            for (i = socialWall.actualFeed; i < socialWall.maxFeed; i++) {
 
                 if (typeof socialWall.$data.data.items[i] != 'undefined') {
 
