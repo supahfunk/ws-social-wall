@@ -9,13 +9,14 @@ SocialWall
 --------------------------------------------------*/
 var $socialWallGrid = $('.social-wall-grid'),
     socialWall = {
-        codiceSocialWall: 'b17d6114643f2627f53de462565fda5e',
+        codiceSocialWall: $socialWallGrid.attr('data-code'),
         accessToken: '634737799ba786bbfe74ff48a52b3f54725782e5eab78',
         maxFeed: $socialWallGrid.attr('data-max-feed') || 10,
         withMasonry: $socialWallGrid.attr('data-masonry') || 'false',
-        loadMore: $socialWallGrid.attr('data-load-more') || 'false',
         actualFeed: 0,
         tooManyFeeds: false,
+        media: [],
+        loadedImages: 0,
         $data: null,
         init: function () {
             $.ajax({
@@ -31,19 +32,49 @@ var $socialWallGrid = $('.social-wall-grid'),
                         socialWall.masonry();
                     }
 
-                    socialWall.createGrid(socialWall.actualFeed, socialWall.maxFeed);
+                    socialWall.loadImages();
 
                 }
             });
         },
-        createGrid: function (from, to) {
+        loadImages: function () {
+            
+            for (i = socialWall.actualFeed; i < socialWall.maxFeed; i++) {
+                if (typeof socialWall.$data.data.items[i] != 'undefined') {
+
+                    var feed = socialWall.$data.data.items[i],
+                        media = feed.media || undefined;
+
+                    var img = new Image();
+                    socialWall.media.push(media.url);
+
+                    img.onload = function () {
+                        socialWall.loadedImages++;
+                        console.log(socialWall.loadedImages);
+                        if (socialWall.loadedImages == socialWall.maxFeed - 1) {
+                            socialWall.createGrid();
+                        }
+                    }
+                    img.onerror = function () {
+                        inArray = $.inArray(this.src, socialWall.media);
+                        socialWall.$data.data.items.splice(inArray, 1);
+                    }
+                    img.src = media.url;
+
+                }
+
+            }
+        },
+        createGrid: function () {
+
+            console.log(socialWall.$data);
 
             if (socialWall.$data.data.items.length < socialWall.maxFeed) {
                 socialWall.maxFeed = socialWall.$data.data.items.length;
                 socialWall.tooManyFeeds = true;
             }
 
-            for (i = from; i < to; i++) {
+            for (i = socialWall.actualFeed; i < socialWall.maxFeed; i++) {
 
                 if (typeof socialWall.$data.data.items[i] != 'undefined') {
 
@@ -51,15 +82,18 @@ var $socialWallGrid = $('.social-wall-grid'),
                         $box = $('<div class="grid-item"><div class="grid-wrap"><div class="box"></div></div></div>'),
                         source = feed.source,
                         feedID = feed.id,
-                        date = feed.date,
+                        permalink = feed.permalink,
+                        date = new Date(parseInt(feed.date)),
                         text = urlify(feed.text),
                         media = feed.media || undefined,
                         user = feed.user,
                         avatar = user.avatar.replace('https', 'http'),
                         id = user.id,
-                        name = user.name,
+                        userPermalink = user.permalink,
                         icon,
                         socialUrl;
+
+                    // console.log(date.toString());
 
                     switch (source) {
                         case 'PT':
@@ -86,10 +120,10 @@ var $socialWallGrid = $('.social-wall-grid'),
                     if (source != 'GP' && typeof media != 'undefined') {
 
                         // media
-                        $media = $('<div class="media"><figure><img src="' + media.url + '" /></figure></div>').appendTo($('.box', $box));
+                        $media = $('<div class="media"><a href="' + permalink + '" target="_blank"><figure><img src="' + media.url + '" /></figure></a></div>').appendTo($('.box', $box));
 
                         // author 
-                        $avatar = $('<div class="author"><a href="' + (socialUrl + id) + '" target="_blank"><figure class="img"><img src="' + avatar + '" onError="$(this).remove();" class="avatar" /></figure><span class="author-name">' + name + '</span> <span class="author-username">' + id + '</span></a></div>').appendTo($('.box', $box));;
+                        $avatar = $('<div class="author"><a href="' + userPermalink + '" target="_blank"><figure class="img"><img src="' + avatar + '" onError="$(this).remove();" class="avatar" /></figure><span class="author-name">' + name + '</span> <span class="author-username">' + id + '</span></a></div>').appendTo($('.box', $box));;
 
                         // text
                         $text = $('<div class="text"></div>').html(text).appendTo($('.box', $box));
@@ -111,7 +145,7 @@ var $socialWallGrid = $('.social-wall-grid'),
 
                     } else {
                         if (!socialWall.tooManyFeeds) {
-                            socialWall.maxFeed++;
+                           socialWall.maxFeed++;
                         }
                     }
 
@@ -126,23 +160,6 @@ var $socialWallGrid = $('.social-wall-grid'),
 
             $wall.imagesLoaded().progress(function () {
                 $wall.masonry('layout');
-            });
-
-
-
-            if (socialWall.loadMore === 'true') {
-                $('<div class="social-wall-load-more"><button class="btn btn-load-more">Load more</button></div>').insertAfter($socialWallGrid);
-            }
-
-            $(document).on('click', '.btn-load-more', function () {
-                socialWall.createGrid(socialWall.actualFeed, socialWall.actualFeed * 2);
-                setTimeout(function () {
-                    $wall.masonry('layout');
-                }, 300);
-
-                if (socialWall.actualFeed >= socialWall.$data.data.items.length) {
-                    $('.social-wall-load-more').remove();
-                }
             });
 
         }

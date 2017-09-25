@@ -29,7 +29,7 @@ Il css è generato dal file **socialwall/scss/socialwall.scss**
 Includere l'html di **social-wall-grid**
 
 ```sh
-<div class="social-wall-grid" data-code="..." data-token="..." data-max-feed="10" data-masonry="true" data-load-more="true" ></div>
+<div class="social-wall-grid" data-code="..." data-token="..." data-max-feed="10" data-masonry="true"></div>
 ```
 - - -
 ### Settings
@@ -51,9 +51,5 @@ Includere l'html di **social-wall-grid**
     <tr>
         <th style="white-space: nowrap; text-align: left;">data-masonry</th>
         <td>Se *true* la griglia viene predisposta in  [Masonry](http://masonry.desandro.com/) </td>
-    </tr>
-    <tr>
-        <th style="white-space: nowrap; text-align: left;">data-load-more</th>
-        <td>Se *true* viene inserito un bottone "Load More"</td>
     </tr>
 </table>
