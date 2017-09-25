@@ -33,7 +33,6 @@ var $socialWallGrid = $('.social-wall-grid'),
                     }
 
                     socialWall.loadImages();
-
                 }
             });
         },
@@ -67,8 +66,6 @@ var $socialWallGrid = $('.social-wall-grid'),
         },
         createGrid: function () {
 
-            console.log(socialWall.$data);
-
             if (socialWall.$data.data.items.length < socialWall.maxFeed) {
                 socialWall.maxFeed = socialWall.$data.data.items.length;
                 socialWall.tooManyFeeds = true;
@@ -92,8 +89,6 @@ var $socialWallGrid = $('.social-wall-grid'),
                         userPermalink = user.permalink,
                         icon,
                         socialUrl;
-
-                    // console.log(date.toString());
 
                     switch (source) {
                         case 'PT':
